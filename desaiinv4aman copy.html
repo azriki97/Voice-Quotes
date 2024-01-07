@@ -1,0 +1,599 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotes Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="<link rel=" preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="css/eid.css" />
+
+</head>
+
+<body>
+
+    <div style="background-color: #FF98BA;" class="jumbotron text-white p-0">
+        <div class="container py-3 text-center">
+            <h1 class="display-4 font-weight-bold">Quotes Image Generator</h1>
+            <small style="color: #343434;">Name -> Voice Quote -> Image -> Resize(optional) -> Download</small><br>
+        </div>
+    </div>
+    <div class="ContainerDiv">
+        <div id="includeheader">
+            <div class="ProgressBar">
+                <!-- <div id="stepWrapper"> -->
+                <!-- Input Section -->
+
+                <br>
+                <label for="name" class="textperintah">Nama Pengisi :</label><br>
+                <!-- <input type="text" id="name" placeholder="Masukkan nama"><br><br> -->
+                <input class="form-control" id="name" type="text" placeholder="Masukkan nama"
+                    aria-label="default input example"><br><br>
+
+                <label for="voiceInput" class="textperintah">Merekam Suara :</label><br>
+                <!-- <button onclick="startVoiceRecognition()">Record</button><br><br> -->
+                <button type="button" onclick="startVoiceRecognition()"
+                    class="btn btn-primary btn-sm custom-button">Record</button><br><br>
+                <textarea id="voiceInput" placeholder="Hasil Voice akan muncul disini" readonly></textarea><br><br>
+
+                <label for="imageUrl" class="textperintah">URL Gambar :</label><br>
+                <!-- <input type="text" id="imageUrl" placeholder="Masukkan URL gambar"><br><br> -->
+                <input class="form-control" id="imageUrl" type="text" placeholder="Masukkan URL gambar"
+                    aria-label="default input example"><br><br>
+
+                <!-- Canvas Settings -->
+                <label for="canvasWidth" class="textperintah">Ukuran Lebar Canvas(Optional) :</label>
+                <!-- <input type="number" id="canvasWidth" placeholder="Lebar canvas"><br><br> -->
+                <input class="form-control" id="canvasWidth" type="number" placeholder="Lebar Gambar"
+                    aria-label="default input example"><br><br>
+
+                <label for="canvasHeight" class="textperintah">Ukuran Tinggi Canvas(Optional) :</label>
+                <!-- <input type="number" id="canvasHeight" placeholder="Tinggi canvas"><br><br> -->
+                <input class="form-control" id="canvasHeight" type="number" placeholder="Tinggi Gambar"
+                    aria-label="default input example"><br><br>
+
+                <label for="imageFormat" class="textperintah">Format Gambar :</label>
+                <select id="imageFormat">
+                    <option value="jpeg">JPEG</option>
+                    <option value="png">PNG</option>
+                </select><br><br>
+
+                <!-- <button onclick="generateQuote()">Generate Quote</button><br><br> -->
+                <button type="button" onclick="generateQuote()" class="btn btn-primary btn-sm custom-button">
+                    Generate Quote
+                </button><br><br>
+
+                <!-- Canvas and Download Section -->
+                <div id="canvasContainer">
+                    <canvas id="quoteCanvas" width="800" height="500"></canvas>
+                    <a id="downloadCanvasLink" download="quote_image.png">
+                        <br><br><button type="button" class="btn btn-primary btn-sm custom-button">
+                            Download Gambar
+                        </button><br><br></a>
+                </div>
+
+                <!-- Quote Preview Section -->
+                <div id="preview">
+                    <h2 class="textperintah">Preview :</h2>
+                    <p id="previewQuote" class="textperintah"></p>
+                    <p id="previewName" class="textperintah"></p>
+                    <img id="previewImage" src="" alt="Preview Image">
+                </div>
+
+                <!-- </div> -->
+            </div>
+        </div>
+    </div>
+
+
+    <footer>
+        <div class="main-content">
+            <div class="left box">
+                <h4>Connect with me</h4>
+                <div class="content">
+                    <p>This website is created for generating custom greeting image by preferences of user name , quotes
+                        , images .</p>
+                    <div class="social">
+                        <a href="#"><span class="fas fa-mail-bulk"></span></a>
+                        <span>alifrizky@gmail.com</span><br />
+                        <a href="https://www.linkedin.com/in/alif-rizky-890a15277/" target="_blank"><span
+                                class="fab fa-linkedin"></span></a>
+                        <span>Alif Rizky</span><br />
+                        <a href="https://github.com/azriki97" target="_blank"><span class="fab fa-github"></span></a>
+                        <span>Azriki97</span><br />
+                        <a href="https://www.instagram.com/alifrizky_97?igsh=MTB4b2ZmMnBraW9xeg==" target="_blank"><span
+                                class="fab fa-instagram"></span></a>
+                        <span>alifrizky_97</span>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+        <div class="bottom">
+            <center>
+                <span class="credit">Alif Rizky</a> | </span>
+                <span class="far fa-copyright"></span><span> 2024 All rights reserved.</span>
+            </center>
+        </div>
+    </footer>
+
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="js/eid.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
+    <!-- Include the compiled Vue.js app -->
+    <script src="path/to/your/compiled/app.js"></script>
+
+    <script>
+        let recognition;
+
+        function startVoiceRecognition() {
+            recognition = new webkitSpeechRecognition() || new SpeechRecognition();
+            // recognition.lang = 'en-US';
+            recognition.lang = 'id-ID';
+
+            recognition.onresult = function (event) {
+                const voiceInput = event.results[0][0].transcript;
+                document.getElementById('voiceInput').value = voiceInput;
+            };
+
+            recognition.start();
+        }
+
+        function generateQuote() {
+            const name = document.getElementById('name').value;
+            const voiceInput = document.getElementById('voiceInput').value;
+            const imageUrl = document.getElementById('imageUrl').value;
+
+            const canvasWidth = parseInt(document.getElementById('canvasWidth').value) || 400; // Ukuran default jika tidak diisi
+            const canvasHeight = parseInt(document.getElementById('canvasHeight').value) || 250;
+            const imageFormat = document.getElementById('imageFormat').value || 'jpeg';
+
+            // Menampilkan preview
+            document.getElementById('previewName').innerText = 'Nama Pengisi : ' + name;
+            document.getElementById('previewQuote').innerText = 'Voice Quote : ' + voiceInput;
+            document.getElementById('previewImage').src = imageUrl;
+
+            // Mengambil elemen canvas dan konteksnya
+            const canvas = document.getElementById('quoteCanvas');
+            const context = canvas.getContext('2d');
+
+            // Menyesuaikan ukuran canvas sesuai input pengguna
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+
+            // Menggambar gambar dari URL
+            const image = new Image();
+            image.crossOrigin = "Anonymous";
+            image.src = imageUrl;
+
+            image.onload = function () {
+                // Menggambar gambar
+                context.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+                // Menambahkan teks ke canvas
+                context.fillStyle = '#FFF';
+                context.textAlign = 'center';
+                context.textBaseline = 'middle';
+                context.shadowColor = 'rgba(0, 0, 0, 0.25)';
+                context.shadowOffsetX = 0.5;
+                context.shadowOffsetY = 0.5;
+                context.shadowBlur = 1;
+
+                // Calculate a suitable font size based on canvas dimensions
+                const fontSize = Math.min(canvas.width / 15, canvas.height / 15);
+                context.font = `bold ${fontSize}px Montserrat`;
+
+                const textX = canvas.width / 2;
+                const textY = canvas.height / 2;
+
+                // Mengatur teks di bawah kutipan
+                context.fillText(voiceInput, textX, textY - fontSize); // Adjusted textY for quote
+                context.fillText(name, textX, textY + fontSize); // Adjusted textY for name
+
+                // Menampilkan canvas dan link download
+                document.getElementById('canvasContainer').style.display = 'block';
+
+                // Mengonversi canvas ke format yang dipilih dengan kualitas 0.8
+                const downloadLink = document.getElementById('downloadCanvasLink');
+                downloadLink.href = canvas.toDataURL(`image/${imageFormat}`, 0.8);
+                downloadLink.download = `quote_image.${imageFormat}`;
+            };
+
+            // Stop voice recognition jika sedang berjalan
+            if (recognition) {
+                recognition.stop();
+            }
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+
+        }
+
+        .custom-button {
+            background-color: #ff9a9a;
+            color: #FFF;
+            /* Text color */
+            border: 1px solid #ffffff;
+            /* Border color for the default state */
+            transition: background-color 0.3s, color 0.3s;
+            /* Smooth transition effect */
+        }
+
+        .custom-button:hover {
+            background-color: #ffffff;
+            /* Background color on hover */
+            color: #ff9a9a;
+            /* Text color on hover */
+            border: 1px solid #ffffff;
+            /* Border color on hover */
+        }
+
+        .textperintah {
+            color: #ffffff;
+        }
+
+        .ContainerDiv {
+            background-color: rgb(222, 49, 99);
+        }
+
+        .cusbtn {
+            margin: 15px;
+        }
+
+        .ProgressBar {
+            margin: 25px;
+            text-align: center;
+        }
+
+        #stepWrapper {
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .Step {
+            margin: 25px;
+        }
+
+        .Bullet {
+            border: 3px solid #ffffff;
+            border-radius: 100%;
+            margin: 10px;
+            line-height: 20px;
+            position: relative;
+        }
+
+        .Bullet.Completed {
+            color: #343434;
+            background-color: #ffffff;
+        }
+
+        .buttonDiv {
+            justify-content: center;
+            text-align: center;
+        }
+
+        .Bullet.Completed::after {
+            content: '';
+            position: absolute;
+            height: 2px;
+            width: 76px;
+            bottom: 10px;
+            background-color: #ffffff;
+
+        }
+
+        .finish {
+            color: #343434;
+            background-color: #ffffff;
+        }
+
+        .input100 {
+            height: 32px;
+            padding: 0 35px;
+            display: block;
+            width: 100%;
+            background: #fff;
+            border-radius: 31px;
+            line-height: 1.2;
+        }
+
+        .main {
+            text-align: center;
+            padding: 15px;
+            background-color: gray;
+            border-radius: 31px;
+        }
+
+        .mainContent {
+            margin: 10px;
+        }
+
+        .quotes {
+            font-weight: bold;
+            margin: 25px;
+            border: 3px solid green;
+            border-radius: 30px;
+            padding: 15px;
+        }
+
+        .overflowradio {
+            display: none;
+            overflow: scroll;
+            background-color: white;
+            width: 100%;
+            border: 4px solid gray;
+            border-radius: 30px;
+            height: 350px;
+        }
+
+        .third {
+            text-align: center;
+        }
+
+        #fourth {
+            display: none;
+            text-align: center;
+        }
+
+        #mycanvas {
+            margin: 20px;
+            height: 300px;
+            width: 250px;
+            padding: 10px;
+        }
+
+        img {
+            max-width: 80%;
+            display: inline-block;
+            margin: 8px;
+            height: 200px;
+        }
+
+        /* For medium devices (e.g. tablets) */
+        @media (min-width: 420px) {
+            img {
+                max-width: 48%;
+            }
+        }
+
+        /* For large devices (e.g. desktops) */
+        @media (min-width: 760px) {
+            img {
+                max-width: 24%;
+            }
+        }
+
+        .btnDown {
+            text-align: center;
+            display: none;
+        }
+
+        /* footer start from here */
+
+        .content1 {
+            position: relative;
+            margin: 130px auto;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .content1 .text {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .content1 p {
+            font-size: 2.1875rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        footer {
+            bottom: 0px;
+            width: 100%;
+            background: #343434;
+            color: white;
+            font-size: 12px;
+            margin-top: 25px;
+        }
+
+        .main-content {
+            display: flex;
+        }
+
+        .main-content .box {
+            flex-basis: 50%;
+            padding: 10px 20px;
+        }
+
+        .box h2 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .box .content {
+            margin: 20px 0 0 0;
+            position: relative;
+        }
+
+        .box .content:before {
+            position: absolute;
+            content: '';
+            top: -10px;
+            height: 2px;
+            width: 100%;
+            background: #1a1a1a;
+        }
+
+        .box .content:after {
+            position: absolute;
+            content: '';
+            height: 2px;
+            width: 15%;
+            background: #ffffff;
+            top: -10px;
+        }
+
+        .left .content p {
+            text-align: justify;
+        }
+
+        .left .content .social {
+            margin: 20px 0 0 0;
+        }
+
+        .left .content .social a {
+            padding: 0 2px;
+        }
+
+        .left .content .social a span {
+            height: 40px;
+            width: 40px;
+            background: #1a1a1a;
+            line-height: 40px;
+            text-align: center;
+            font-size: 18px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .left .content .social a span:hover {
+            background: #ffffff;
+        }
+
+        .center .content .fas {
+            font-size: 1.4375rem;
+            background: #1a1a1a;
+            height: 45px;
+            width: 45px;
+            line-height: 45px;
+            text-align: center;
+            border-radius: 50%;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .center .content .fas:hover {
+            background: #f12020;
+        }
+
+        .center .content .text {
+            font-size: 1.0625rem;
+            font-weight: 500;
+            padding-left: 10px;
+        }
+
+        .center .content .phone {
+            margin: 15px 0;
+        }
+
+        .right form .text {
+            font-size: 1.0625rem;
+            margin-bottom: 2px;
+            color: #656565;
+        }
+
+        .right form .msg {
+            margin-top: 10px;
+        }
+
+        .right form input,
+        .right form textarea {
+            width: 100%;
+            font-size: 1.0625rem;
+            background: #151515;
+            padding-left: 10px;
+            border: 1px solid #222222;
+        }
+
+        .right form input:focus,
+        .right form textarea:focus {
+            outline-color: #3498db;
+        }
+
+        .right form input {
+            height: 35px;
+        }
+
+        .right form .btn {
+            margin-top: 10px;
+        }
+
+        .right form .btn button {
+            height: 40px;
+            width: 100%;
+            border: none;
+            outline: none;
+            background: #f12020;
+            font-size: 1.0625rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .right form .btn button:hover {
+            background: #000;
+        }
+
+        .bottom center {
+            padding: 5px;
+            font-size: 0.9375rem;
+            background: #1e1e1e;
+        }
+
+        .bottom center span {
+            color: #656565;
+        }
+
+        .bottom center a {
+            color: #f12020;
+            text-decoration: none;
+        }
+
+        .bottom center a:hover {
+            text-decoration: underline;
+        }
+
+        @media screen and (max-width: 900px) {
+            footer {
+                position: relative;
+                bottom: 0px;
+            }
+
+            .main-content {
+                flex-wrap: wrap;
+                flex-direction: column;
+            }
+
+            .main-content .box {
+                margin: 5px 0;
+            }
+        }
+    </style>
+</body>
+
+</html>
